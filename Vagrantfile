@@ -53,19 +53,14 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define "dhcpclient" do |dhcpclient|
-    dhcpclient.vm.box = "igorbrites/ubuntu-trusty64-gui"
+    dhcpclient.vm.box = "janihur/ubuntu-1404-desktop"
     dhcpclient.vm.hostname = "dhcpclient"
     dhcpclient.vm.network "private_network", type:"dhcp", virtualbox__intnet:true 
 
     dhcpclient.vm.provider "virtualbox" do |vb|
 	  vb.memory = "2048" 
     end
-    dhcpclient.vm.provision "shell", inline: <<-SHELL
-
-    sudo apt-get install -y xfce4 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-    sudo VBoxClient-all
-
-    SHELL
+  
   end
 
 end

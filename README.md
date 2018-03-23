@@ -10,7 +10,7 @@ Danach wird der Prozess angestossen und die Vm oder Vm's wird/werden erstellt.
 ## VM Konfiguration
 
 Die VM's werden wie folgt konfiguriert. Wir haben die erste VM als "Server" erstellt; auf dieser läuft der DHCP, sowie der Apache Webserver. Die zweite VM ist die test Maschine, mit welcher wir die Website erreichen wollen, sowie die automatische IP zuordnung des DHCPs testen. Wir haben bei beiden VM's ebenfalls noch ein Privat-Network hinzugefügt, was es uns erlaubt die IP verteilung des DHCP einzugrenzen.  
-Als Provider haben wir uns für Virtualbox entschieden und als OS benutzen wir <a href="https://app.vagrantup.com/ubuntu/boxes/trusty64">Ubuntu/trusty64</a> normal und mit GUI (<a href="https://app.vagrantup.com/igorbrites/boxes/ubuntu-trusty64-gui">Ubuntu/trusty64-gui</a>)
+Als Provider haben wir uns für Virtualbox entschieden und als OS für den DHCP & Apache benutzen wir <a href="https://app.vagrantup.com/ubuntu/boxes/trusty64">Ubuntu/trusty64</a> und für den Client <a href="https://app.vagrantup.com/janihur/boxes/ubuntu-1404-desktop">ubuntu-1404-desktop</a>
 
 Code der VM1:
 ```
@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
 Code der VM2:
 ```
 config.vm.define "dhcpclient" do |dhcpclient|
-    dhcpclient.vm.box = "igorbrites/ubuntu-trusty64-gui"
+    dhcpclient.vm.box = "janihur/ubuntu-1404-desktop"
     dhcpclient.vm.hostname = "dhcpclient"
     dhcpclient.vm.network "private_network", type:"dhcp", virtualbox__intnet:true
 
@@ -43,7 +43,7 @@ Zum test des Apache Webservers haben wir noch ein HTML File eingefügt, welches 
 
 Code:
 ```
-udo rm /var/www/html/index.html
+sudo rm /var/www/html/index.html
         echo "<html lang="de">"| sudo tee -a /var/www/html/index.html
         echo "<head>"sudo tee -a /var/www/html/index.html
 		    echo "<title>Vorlage_Home</title>" | sudo tee -a /var/www/html/index.html
