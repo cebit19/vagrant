@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
         sudo sed -i '$arange 10.100.10.20 10.100.10.254;' /etc/dhcp/dhcpd.conf
         sudo sed -i '$aoption routers 10.100.10.1;' /etc/dhcp/dhcpd.conf
         sudo sed -i '$a}' /etc/dhcp/dhcpd.conf
-        sudo sed -i 'interface enp0s9'
+        sudo sed -i 'interface eth2'
 		    sudo service isc-dhcp-server restart
         
         # Eingabemethode⁄ ändern
@@ -53,14 +53,19 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define "dhcpclient" do |dhcpclient|
-    dhcpclient.vm.box = "ubuntu/trusty64"
+    dhcpclient.vm.box = "igorbrites/ubuntu-trusty64-gui"
     dhcpclient.vm.hostname = "dhcpclient"
-    dhcpclient.vm.network "private_network", type:"dhcp", virtualbox__intnet:true
+    dhcpclient.vm.network "private_network", type:"dhcp", virtualbox__intnet:true 
 
     dhcpclient.vm.provider "virtualbox" do |vb|
 	  vb.memory = "2048" 
     end
+    dhcpclient.vm.provision "shell", inline: <<-SHELL
 
+    sudo apt-get install -y xfce4 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+    sudo VBoxClient-all
+
+    SHELL
   end
 
 end
