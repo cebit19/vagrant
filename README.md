@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
 Code der VM2:
 ```
 config.vm.define "dhcpclient" do |dhcpclient|
-    dhcpclient.vm.box = "igorbrites/ubuntu-trusty64-gui"
+    dhcpclient.vm.box = "ubuntu/trusty64"
     dhcpclient.vm.hostname = "dhcpclient"
     dhcpclient.vm.network "private_network", type:"dhcp", virtualbox__intnet:true
 
